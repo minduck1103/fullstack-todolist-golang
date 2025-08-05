@@ -1,0 +1,30 @@
+package handlers
+
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"todo-api/internal/models"
+	"todo-api/internal/services"
+)
+
+// Xử lý HTTP requests cho tasks
+type TaskHandler struct {
+	service *services.TaskService
+}
+
+// Tạo handler mới
+func NewTaskHandler(service *services.TaskService) *TaskHandler {
+	return &TaskHandler{
+		service: service,
+	}
+}
+
+// Xử lý POST /tasks
+func (h *TaskHandler) CreateTask(c *gin.Context) {
+	var req models.CreateTaskRequest
+
+	c.ShouldBindJSON(&req)
+	response := h.service.CreateTask(&req)
+	c.JSON(http.StatusCreated, response)
+} 

@@ -4,13 +4,21 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"todo-api/internal/handlers"
+	"todo-api/internal/services"
+	"todo-api/internal/storage"
 )
 
 func main() {
-	// Tạo router với Gin
+	storage := storage.NewMemoryStorage()
+	service := services.NewTaskService(storage)
+	handler := handlers.NewTaskHandler(service)
 	router := gin.Default()
+	setupRoutes(router, handler)
+	router.Run(":8080")
+}
 
-	// Route test để kiểm tra server
+func setupRoutes(router *gin.Engine, handler *handlers.TaskHandler) {
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Todo API is running!",
@@ -18,13 +26,12 @@ func main() {
 		})
 	})
 
-	// Route health check
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"status": "healthy",
 		})
 	})
 
-	// Khởi động server trên port 8080
-	router.Run(":8080")
+	// Route tạo task
+	router.POST("/tasks", handler.CreateTask)
 } 
