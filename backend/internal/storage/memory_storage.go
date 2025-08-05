@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"errors"
 	"todo-api/internal/models"
 )
 
@@ -20,6 +21,10 @@ func NewMemoryStorage() *MemoryStorage {
 
 // Thêm task mới vào storage
 func (s *MemoryStorage) Create(task *models.Task) (*models.Task, error) {
+	if task.Title == "" {
+		return nil, errors.New("title không được để trống")
+	}
+
 	// Gán ID cho task
 	task.ID = s.nextID
 	s.tasks[task.ID] = task
@@ -42,18 +47,29 @@ func (s *MemoryStorage) GetAll() []*models.Task {
 }
 
 // Cập nhật task theo ID
-func (s *MemoryStorage) Update(id int, completed bool) *models.Task {
+func (s *MemoryStorage) Update(id int, completed bool) (*models.Task, error) {
 	// Tìm task theo ID
 	task := s.tasks[id]
+	
+	// Kiểm tra task có tồn tại không
+	if task == nil {
+		return nil, errors.New("task không tồn tại")
+	}
 	
 	// Cập nhật trạng thái completed
 	task.Completed = completed
 	
-	return task
+	return task, nil
 }
 
 // Xóa task theo ID
-func (s *MemoryStorage) Delete(id int) {
+func (s *MemoryStorage) Delete(id int) error {
+	// Kiểm tra task có tồn tại không
+	if s.tasks[id] == nil {
+		return errors.New("task không tồn tại")
+	}
+	
 	// Xóa task khỏi map
 	delete(s.tasks, id)
+	return nil
 } 

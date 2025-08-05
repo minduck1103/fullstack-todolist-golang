@@ -19,8 +19,7 @@ func NewTaskService(storage *storage.MemoryStorage) *TaskService {
 }
 
 // Tạo task mới
-func (s *TaskService) CreateTask(req *models.CreateTaskRequest) *models.CreateTaskResponse {
-	// Tạo task mới
+func (s *TaskService) CreateTask(req *models.CreateTaskRequest) (*models.CreateTaskResponse, error) {
 	task := &models.Task{
 		Title:       req.Title,
 		Description: req.Description,
@@ -28,12 +27,15 @@ func (s *TaskService) CreateTask(req *models.CreateTaskRequest) *models.CreateTa
 	}
 
 	// Lưu vào storage
-	createdTask, _ := s.storage.Create(task)
+	createdTask, err := s.storage.Create(task)
+	if err != nil {
+		return nil, err
+	}
 
 	// Trả về kết quả
 	return &models.CreateTaskResponse{
 		ID: createdTask.ID,
-	}
+	}, nil
 }
 
 // Lấy tất cả tasks
@@ -42,7 +44,7 @@ func (s *TaskService) GetAllTasks() []*models.Task {
 }
 
 // Cập nhật task
-func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest) *models.Task {
+func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest) (*models.Task, error) {
 	// Chuyển string ID thành int
 	id, _ := strconv.Atoi(idString)
 	
@@ -50,10 +52,10 @@ func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest)
 }
 
 // Xóa task
-func (s *TaskService) DeleteTask(idString string) {
+func (s *TaskService) DeleteTask(idString string) error {
 	// Chuyển string ID thành int
 	id, _ := strconv.Atoi(idString)
 	
 	// Xóa khỏi storage
-	s.storage.Delete(id)
+	return s.storage.Delete(id)
 } 
