@@ -36,4 +36,20 @@ func (h *TaskHandler) GetAllTasks(c *gin.Context) {
 	
 	// Trả về danh sách tasks
 	c.JSON(http.StatusOK, tasks)
+}
+
+// Xử lý PUT /tasks/{id}
+func (h *TaskHandler) UpdateTask(c *gin.Context) {
+	// Lấy ID từ URL parameter
+	id := c.Param("id")
+	
+	// Đọc dữ liệu từ request body
+	var req models.UpdateTaskRequest
+	c.ShouldBindJSON(&req)
+	
+	// Cập nhật task
+	updatedTask := h.service.UpdateTask(id, &req)
+	
+	// Trả về task đã cập nhật
+	c.JSON(http.StatusOK, updatedTask)
 } 
