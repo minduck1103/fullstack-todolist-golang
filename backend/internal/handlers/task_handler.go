@@ -25,7 +25,13 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	var req models.CreateTaskRequest
 
 	c.ShouldBindJSON(&req)
-	response := h.service.CreateTask(&req)
+	response, err := h.service.CreateTask(&req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	c.JSON(http.StatusCreated, response)
 }
 
@@ -48,7 +54,13 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	c.ShouldBindJSON(&req)
 	
 	// Cập nhật task
-	updatedTask := h.service.UpdateTask(id, &req)
+	updatedTask, err := h.service.UpdateTask(id, &req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	
 	// Trả về task đã cập nhật
 	c.JSON(http.StatusOK, updatedTask)
@@ -60,7 +72,13 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	id := c.Param("id")
 	
 	// Xóa task
-	h.service.DeleteTask(id)
+	err := h.service.DeleteTask(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 	
 	// Trả về thông báo thành công
 	c.JSON(http.StatusOK, gin.H{
