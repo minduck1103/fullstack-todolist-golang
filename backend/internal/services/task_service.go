@@ -33,4 +33,9 @@ func (s *TaskService) CreateTask(req *models.CreateTaskRequest) *models.CreateTa
 	return &models.CreateTaskResponse{
 		ID: createdTask.ID,
 	}
+}
+
+// Lấy tất cả tasks
+func (s *TaskService) GetAllTasks() []*models.Task {
+	return s.storage.GetAll()
 } 

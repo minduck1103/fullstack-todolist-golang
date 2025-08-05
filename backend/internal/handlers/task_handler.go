@@ -27,4 +27,13 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 	c.ShouldBindJSON(&req)
 	response := h.service.CreateTask(&req)
 	c.JSON(http.StatusCreated, response)
+}
+
+// Xử lý GET /tasks
+func (h *TaskHandler) GetAllTasks(c *gin.Context) {
+	// Lấy tất cả tasks
+	tasks := h.service.GetAllTasks()
+	
+	// Trả về danh sách tasks
+	c.JSON(http.StatusOK, tasks)
 } 

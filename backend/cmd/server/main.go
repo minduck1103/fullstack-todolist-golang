@@ -13,6 +13,7 @@ func main() {
 	storage := storage.NewMemoryStorage()
 	service := services.NewTaskService(storage)
 	handler := handlers.NewTaskHandler(service)
+
 	router := gin.Default()
 	setupRoutes(router, handler)
 	router.Run(":8080")
@@ -34,4 +35,7 @@ func setupRoutes(router *gin.Engine, handler *handlers.TaskHandler) {
 
 	// Route tạo task
 	router.POST("/tasks", handler.CreateTask)
+	
+	// Route lấy danh sách tasks
+	router.GET("/tasks", handler.GetAllTasks)
 } 
