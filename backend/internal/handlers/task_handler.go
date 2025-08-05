@@ -52,4 +52,18 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	
 	// Trả về task đã cập nhật
 	c.JSON(http.StatusOK, updatedTask)
+}
+
+// Xử lý DELETE /tasks/{id}
+func (h *TaskHandler) DeleteTask(c *gin.Context) {
+	// Lấy ID từ URL parameter
+	id := c.Param("id")
+	
+	// Xóa task
+	h.service.DeleteTask(id)
+	
+	// Trả về thông báo thành công
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Task đã được xóa thành công",
+	})
 } 

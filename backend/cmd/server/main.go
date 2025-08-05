@@ -41,4 +41,7 @@ func setupRoutes(router *gin.Engine, handler *handlers.TaskHandler) {
 	
 	// Route cập nhật task
 	router.PUT("/tasks/:id", handler.UpdateTask)
+	
+	// Route xóa task
+	router.DELETE("/tasks/:id", handler.DeleteTask)
 } 

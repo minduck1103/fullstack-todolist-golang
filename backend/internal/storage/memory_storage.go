@@ -50,4 +50,10 @@ func (s *MemoryStorage) Update(id int, completed bool) *models.Task {
 	task.Completed = completed
 	
 	return task
+}
+
+// Xóa task theo ID
+func (s *MemoryStorage) Delete(id int) {
+	// Xóa task khỏi map
+	delete(s.tasks, id)
 } 
