@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"todo-api/internal/models"
@@ -24,7 +25,14 @@ func NewTaskHandler(service *services.TaskService) *TaskHandler {
 func (h *TaskHandler) CreateTask(c *gin.Context) {
 	var req models.CreateTaskRequest
 
-	c.ShouldBindJSON(&req)
+	// Kiểm tra request body hợp lệ
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Dữ liệu không hợp lệ: " + err.Error(),
+		})
+		return
+	}
+
 	response, err := h.service.CreateTask(&req)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -49,16 +57,36 @@ func (h *TaskHandler) UpdateTask(c *gin.Context) {
 	// Lấy ID từ URL parameter
 	id := c.Param("id")
 	
+	// Kiểm tra ID hợp lệ
+	if _, err := strconv.Atoi(id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "ID không hợp lệ",
+		})
+		return
+	}
+	
 	// Đọc dữ liệu từ request body
 	var req models.UpdateTaskRequest
-	c.ShouldBindJSON(&req)
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Dữ liệu không hợp lệ: " + err.Error(),
+		})
+		return
+	}
 	
 	// Cập nhật task
 	updatedTask, err := h.service.UpdateTask(id, &req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		// Xử lý status code phù hợp
+		if err.Error() == "task không tồn tại" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+		}
 		return
 	}
 	
@@ -71,12 +99,27 @@ func (h *TaskHandler) DeleteTask(c *gin.Context) {
 	// Lấy ID từ URL parameter
 	id := c.Param("id")
 	
+	// Kiểm tra ID hợp lệ
+	if _, err := strconv.Atoi(id); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "ID không hợp lệ",
+		})
+		return
+	}
+	
 	// Xóa task
 	err := h.service.DeleteTask(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		// Xử lý status code phù hợp
+		if err.Error() == "task không tồn tại" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"error": err.Error(),
+			})
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": err.Error(),
+			})
+		}
 		return
 	}
 	
