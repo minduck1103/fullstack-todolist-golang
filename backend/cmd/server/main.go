@@ -38,4 +38,7 @@ func setupRoutes(router *gin.Engine, handler *handlers.TaskHandler) {
 	
 	// Route lấy danh sách tasks
 	router.GET("/tasks", handler.GetAllTasks)
+	
+	// Route cập nhật task
+	router.PUT("/tasks/:id", handler.UpdateTask)
 } 

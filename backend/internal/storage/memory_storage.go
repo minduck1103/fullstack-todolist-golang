@@ -39,4 +39,15 @@ func (s *MemoryStorage) GetAll() []*models.Task {
 	}
 	
 	return tasks
+}
+
+// Cập nhật task theo ID
+func (s *MemoryStorage) Update(id int, completed bool) *models.Task {
+	// Tìm task theo ID
+	task := s.tasks[id]
+	
+	// Cập nhật trạng thái completed
+	task.Completed = completed
+	
+	return task
 } 

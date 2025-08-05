@@ -1,6 +1,7 @@
 package services
 
 import (
+	"strconv"
 	"todo-api/internal/models"
 	"todo-api/internal/storage"
 )
@@ -38,4 +39,12 @@ func (s *TaskService) CreateTask(req *models.CreateTaskRequest) *models.CreateTa
 // Lấy tất cả tasks
 func (s *TaskService) GetAllTasks() []*models.Task {
 	return s.storage.GetAll()
+}
+
+// Cập nhật task
+func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest) *models.Task {
+	// Chuyển string ID thành int
+	id, _ := strconv.Atoi(idString)
+	
+	return s.storage.Update(id, req.Completed)
 } 

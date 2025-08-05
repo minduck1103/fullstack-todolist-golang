@@ -17,4 +17,9 @@ type CreateTaskRequest struct {
 // Dữ liệu trả về khi tạo task thành công
 type CreateTaskResponse struct {
 	ID int `json:"id"`
+}
+
+// Dữ liệu nhận từ request khi cập nhật task
+type UpdateTaskRequest struct {
+	Completed bool `json:"completed"`
 } 
