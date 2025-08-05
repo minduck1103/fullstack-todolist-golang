@@ -47,4 +47,13 @@ func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest)
 	id, _ := strconv.Atoi(idString)
 	
 	return s.storage.Update(id, req.Completed)
+}
+
+// Xóa task
+func (s *TaskService) DeleteTask(idString string) {
+	// Chuyển string ID thành int
+	id, _ := strconv.Atoi(idString)
+	
+	// Xóa khỏi storage
+	s.storage.Delete(id)
 } 
