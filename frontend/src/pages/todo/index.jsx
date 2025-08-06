@@ -1,15 +1,18 @@
 import React from 'react';
 import TodoList from './components/TodoList';
+import AddTodo from './components/AddTodo';
 import { useTasks } from '../../hooks/useTasks';
 
 const TodoPage = () => {
   const {
     tasks,
     loading,
+    addingTask,
     error,
     fetchTasks,
     toggleComplete,
-    deleteTask
+    deleteTask,
+    addTask
   } = useTasks();
 
   return (
@@ -27,6 +30,12 @@ const TodoPage = () => {
 
         {/* Nội dung chính */}
         <div className="max-w-2xl mx-auto">
+          {/* Component thêm task mới */}
+          <AddTodo 
+            onAddTask={addTask}
+            loading={addingTask}
+          />
+          
           <div className="glass rounded-xl p-6">
             <TodoList
               tasks={tasks}
@@ -41,7 +50,7 @@ const TodoPage = () => {
 
         {/* Thông tin cuối trang */}
         <div className="text-center mt-8 text-sm text-gray-500">
-          <p>PR 2: TodoList Component - Hiển thị danh sách công việc</p>
+          <p>PR 3: AddTodo Component - Thêm công việc mới</p>
         </div>
       </div>
     </div>
