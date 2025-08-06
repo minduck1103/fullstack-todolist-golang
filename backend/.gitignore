@@ -21,8 +21,8 @@ bin/
 dist/
 build/
 
-# Go modules
-go.sum
+# Go modules (go.sum should NOT be ignored!)
+# go.sum
 
 # IDE and Editor files
 .vscode/
