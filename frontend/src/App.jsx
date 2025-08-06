@@ -3,11 +3,7 @@ import TodoPage from './pages/todo';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <TodoPage />
-    </div>
-  );
+  return <TodoPage />;
 }
 
 export default App;
