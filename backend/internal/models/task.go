@@ -1,17 +1,18 @@
 package models
 
+import "time"
+
 // Cấu trúc dữ liệu cho một task
 type Task struct {
-	ID          int    `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Completed   bool   `json:"completed"`
+	ID          int       `json:"id"`
+	Text        string    `json:"text"`
+	Completed   bool      `json:"completed"`
+	CreatedAt   time.Time `json:"createdAt"`
 }
 
 // Dữ liệu nhận từ request khi tạo task
 type CreateTaskRequest struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
+	Text string `json:"text"`
 }
 
 // Dữ liệu trả về khi tạo task thành công
@@ -21,5 +22,6 @@ type CreateTaskResponse struct {
 
 // Dữ liệu nhận từ request khi cập nhật task
 type UpdateTaskRequest struct {
-	Completed bool `json:"completed"`
+	Text      *string `json:"text,omitempty"`
+	Completed *bool   `json:"completed,omitempty"`
 } 

@@ -21,8 +21,8 @@ func NewMemoryStorage() *MemoryStorage {
 
 // Thêm task mới vào storage
 func (s *MemoryStorage) Create(task *models.Task) (*models.Task, error) {
-	if task.Title == "" {
-		return nil, errors.New("title không được để trống")
+	if task.Text == "" {
+		return nil, errors.New("text không được để trống")
 	}
 
 	// Gán ID cho task
@@ -47,7 +47,7 @@ func (s *MemoryStorage) GetAll() []*models.Task {
 }
 
 // Cập nhật task theo ID
-func (s *MemoryStorage) Update(id int, completed bool) (*models.Task, error) {
+func (s *MemoryStorage) Update(id int, req *models.UpdateTaskRequest) (*models.Task, error) {
 	// Tìm task theo ID
 	task := s.tasks[id]
 	
@@ -56,8 +56,18 @@ func (s *MemoryStorage) Update(id int, completed bool) (*models.Task, error) {
 		return nil, errors.New("task không tồn tại")
 	}
 	
-	// Cập nhật trạng thái completed
-	task.Completed = completed
+	// Cập nhật text nếu có
+	if req.Text != nil {
+		if *req.Text == "" {
+			return nil, errors.New("text không được để trống")
+		}
+		task.Text = *req.Text
+	}
+	
+	// Cập nhật trạng thái completed nếu có
+	if req.Completed != nil {
+		task.Completed = *req.Completed
+	}
 	
 	return task, nil
 }
