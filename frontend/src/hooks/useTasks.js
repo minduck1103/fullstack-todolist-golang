@@ -34,9 +34,12 @@ export const useTasks = () => {
           task.id === taskId ? updatedTask : task
         )
       );
+      
+      return updatedTask;
     } catch (err) {
       setError(err.message);
       console.error('Lỗi khi cập nhật công việc:', err);
+      throw err;
     }
   }, []);
 
@@ -48,9 +51,12 @@ export const useTasks = () => {
       setTasks(prevTasks => 
         prevTasks.filter(task => task.id !== taskId)
       );
+      
+      return true;
     } catch (err) {
       setError(err.message);
       console.error('Lỗi khi xóa công việc:', err);
+      throw err;
     }
   }, []);
 
