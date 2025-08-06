@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import TodoStats from './components/TodoStats';
 import Toast from '../../components/Toast';
 import { useTasks } from '../../hooks/useTasks';
 
 const TodoPage = () => {
   const [toast, setToast] = useState(null);
+  const [lastAction, setLastAction] = useState(null);
   
   const {
     tasks,
     loading,
     addingTask,
     error,
+    optimisticUpdates,
     fetchTasks,
     toggleComplete,
     deleteTask,
@@ -23,13 +26,39 @@ const TodoPage = () => {
     setToast({ message, type });
   };
 
-  // Xử lý thêm task với toast
+  // Xử lý thêm task với toast và tracking
   const handleAddTask = async (taskData) => {
     try {
-      await addTask(taskData);
+      const newTask = await addTask(taskData);
+      setLastAction({ type: 'add', task: newTask, timestamp: Date.now() });
       showToast('Thêm công việc thành công!', 'success');
     } catch (error) {
       showToast('Không thể thêm công việc. Vui lòng thử lại.', 'error');
+    }
+  };
+
+  // Xử lý toggle completion với toast
+  const handleToggleComplete = async (taskId, completed) => {
+    try {
+      const updatedTask = await toggleComplete(taskId, completed);
+      setLastAction({ type: 'toggle', task: updatedTask, timestamp: Date.now() });
+      showToast(
+        completed ? 'Đánh dấu hoàn thành!' : 'Đã bỏ đánh dấu hoàn thành!', 
+        'success'
+      );
+    } catch (error) {
+      showToast('Không thể cập nhật trạng thái. Vui lòng thử lại.', 'error');
+    }
+  };
+
+  // Xử lý xóa task với toast
+  const handleDeleteTask = async (taskId) => {
+    try {
+      await deleteTask(taskId);
+      setLastAction({ type: 'delete', taskId, timestamp: Date.now() });
+      showToast('Đã xóa công việc!', 'success');
+    } catch (error) {
+      showToast('Không thể xóa công việc. Vui lòng thử lại.', 'error');
     }
   };
 
@@ -45,7 +74,15 @@ const TodoPage = () => {
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-4xl mx-auto">
+          {/* Component thống kê */}
+          <TodoStats 
+            tasks={tasks}
+            optimisticUpdates={optimisticUpdates}
+            lastAction={lastAction}
+          />
+          
+          {/* Component thêm task mới */}
           <AddTodo 
             onAddTask={handleAddTask}
             loading={addingTask}
@@ -56,8 +93,8 @@ const TodoPage = () => {
               tasks={tasks}
               loading={loading}
               error={error}
-              onToggleComplete={toggleComplete}
-              onDelete={deleteTask}
+              onToggleComplete={handleToggleComplete}
+              onDelete={handleDeleteTask}
               onRetry={fetchTasks}
             />
           </div>
