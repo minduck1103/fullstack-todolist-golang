@@ -30,7 +30,9 @@ export const taskAPI = {
   // Tạo task mới
   createTask: async (taskData) => {
     try {
-      const response = await api.post(API_ENDPOINTS.TASKS, taskData);
+      const response = await api.post(API_ENDPOINTS.TASKS, {
+        text: taskData.text
+      });
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.error || 'Không thể tạo task');
