@@ -3,6 +3,7 @@ import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 import TodoStats from './components/TodoStats';
 import Toast from '../../components/Toast';
+import ErrorBoundary from '../../components/ErrorBoundary';
 import { useTasks } from '../../hooks/useTasks';
 
 const TodoPage = () => {
@@ -63,52 +64,54 @@ const TodoPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
-      <div className="container mx-auto px-4 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold gradient-text mb-2">
-            Todo List
-          </h1>
-          <p className="text-gray-600">
-            Quản lý công việc của bạn một cách hiệu quả
-          </p>
-        </div>
+    <ErrorBoundary>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
+        <div className="container mx-auto px-4 py-6 md:py-8">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-4xl font-bold gradient-text mb-2">
+              Todo List
+            </h1>
+            <p className="text-sm md:text-base text-gray-600">
+              Quản lý công việc của bạn một cách hiệu quả
+            </p>
+          </div>
 
-        <div className="max-w-4xl mx-auto">
-          {/* Component thống kê */}
-          <TodoStats 
-            tasks={tasks}
-            optimisticUpdates={optimisticUpdates}
-            lastAction={lastAction}
-          />
-          
-          {/* Component thêm task mới */}
-          <AddTodo 
-            onAddTask={handleAddTask}
-            loading={addingTask}
-          />
-          
-          <div className="glass rounded-xl p-6">
-            <TodoList
+          <div className="max-w-4xl mx-auto">
+            {/* Component thống kê */}
+            <TodoStats 
               tasks={tasks}
-              loading={loading}
-              error={error}
-              onToggleComplete={handleToggleComplete}
-              onDelete={handleDeleteTask}
-              onRetry={fetchTasks}
+              optimisticUpdates={optimisticUpdates}
+              lastAction={lastAction}
             />
+            
+            {/* Component thêm task mới */}
+            <AddTodo 
+              onAddTask={handleAddTask}
+              loading={addingTask}
+            />
+            
+            <div className="glass rounded-xl p-4 md:p-6">
+              <TodoList
+                tasks={tasks}
+                loading={loading}
+                error={error}
+                onToggleComplete={handleToggleComplete}
+                onDelete={handleDeleteTask}
+                onRetry={fetchTasks}
+              />
+            </div>
           </div>
         </div>
+        
+        {toast && (
+          <Toast
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
+        )}
       </div>
-      
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={() => setToast(null)}
-        />
-      )}
-    </div>
+    </ErrorBoundary>
   );
 };
 

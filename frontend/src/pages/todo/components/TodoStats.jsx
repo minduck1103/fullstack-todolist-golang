@@ -40,53 +40,53 @@ const TodoStats = ({ tasks = [], optimisticUpdates = new Map(), lastAction }) =>
   };
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 animate-slide-down">
       {/* Thống kê tổng quan */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-4">
+        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Tổng cộng</p>
-              <p className="text-2xl font-bold text-gray-900">{totalTasks}</p>
+              <p className="text-sm text-gray-600 mobile-text-center">Tổng cộng</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">{totalTasks}</p>
             </div>
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <TrendingUp className="w-5 h-5 text-blue-600" />
+            <div className="p-2 bg-blue-100 rounded-lg hover-scale">
+              <TrendingUp className="w-4 h-4 md:w-5 md:h-5 text-blue-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Hoàn thành</p>
-              <p className="text-2xl font-bold text-green-600">{completedTasks}</p>
+              <p className="text-sm text-gray-600 mobile-text-center">Hoàn thành</p>
+              <p className="text-xl md:text-2xl font-bold text-green-600">{completedTasks}</p>
             </div>
-            <div className="p-2 bg-green-100 rounded-lg">
-              <CheckCircle className="w-5 h-5 text-green-600" />
+            <div className="p-2 bg-green-100 rounded-lg hover-scale">
+              <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Đang làm</p>
-              <p className="text-2xl font-bold text-yellow-600">{pendingTasks}</p>
+              <p className="text-sm text-gray-600 mobile-text-center">Đang làm</p>
+              <p className="text-xl md:text-2xl font-bold text-yellow-600">{pendingTasks}</p>
             </div>
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Clock className="w-5 h-5 text-yellow-600" />
+            <div className="p-2 bg-yellow-100 rounded-lg hover-scale">
+              <Clock className="w-4 h-4 md:w-5 md:h-5 text-yellow-600" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+        <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-200 hover-lift">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Tỷ lệ hoàn thành</p>
-              <p className="text-2xl font-bold text-purple-600">{completionRate}%</p>
+              <p className="text-sm text-gray-600 mobile-text-center">Tỷ lệ hoàn thành</p>
+              <p className="text-xl md:text-2xl font-bold text-purple-600">{completionRate}%</p>
             </div>
-            <div className="p-2 bg-purple-100 rounded-lg">
-              <div className="w-5 h-5 text-purple-600 text-center text-xs font-bold">
+            <div className="p-2 bg-purple-100 rounded-lg hover-scale">
+              <div className="w-4 h-4 md:w-5 md:h-5 text-purple-600 text-center text-xs font-bold">
                 {completionRate}%
               </div>
             </div>
