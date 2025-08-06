@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
+import Toast from '../../components/Toast';
 import { useTasks } from '../../hooks/useTasks';
 
 const TodoPage = () => {
+  const [toast, setToast] = useState(null);
+  
   const {
     tasks,
     loading,
@@ -15,10 +18,24 @@ const TodoPage = () => {
     addTask
   } = useTasks();
 
+  // Hiển thị toast notification
+  const showToast = (message, type = 'info') => {
+    setToast({ message, type });
+  };
+
+  // Xử lý thêm task với toast
+  const handleAddTask = async (taskData) => {
+    try {
+      await addTask(taskData);
+      showToast('Thêm công việc thành công!', 'success');
+    } catch (error) {
+      showToast('Không thể thêm công việc. Vui lòng thử lại.', 'error');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Phần đầu trang */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold gradient-text mb-2">
             Todo List
@@ -28,11 +45,9 @@ const TodoPage = () => {
           </p>
         </div>
 
-        {/* Nội dung chính */}
         <div className="max-w-2xl mx-auto">
-          {/* Component thêm task mới */}
           <AddTodo 
-            onAddTask={addTask}
+            onAddTask={handleAddTask}
             loading={addingTask}
           />
           
@@ -47,12 +62,15 @@ const TodoPage = () => {
             />
           </div>
         </div>
-
-        {/* Thông tin cuối trang */}
-        <div className="text-center mt-8 text-sm text-gray-500">
-          <p>PR 3: AddTodo Component - Thêm công việc mới</p>
-        </div>
       </div>
+      
+      {toast && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast(null)}
+        />
+      )}
     </div>
   );
 };
