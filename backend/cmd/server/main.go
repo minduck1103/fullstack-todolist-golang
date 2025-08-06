@@ -31,8 +31,22 @@ func main() {
 	allowedOrigins := getEnv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000")
 	origins := strings.Split(allowedOrigins, ",")
 	
+	// Validate và filter origins để đảm bảo format đúng
+	var validOrigins []string
+	for _, origin := range origins {
+		origin = strings.TrimSpace(origin)
+		if origin == "*" || strings.HasPrefix(origin, "http://") || strings.HasPrefix(origin, "https://") {
+			validOrigins = append(validOrigins, origin)
+		}
+	}
+	
+	// Nếu không có origins hợp lệ, sử dụng default
+	if len(validOrigins) == 0 {
+		validOrigins = []string{"http://localhost:5173", "http://localhost:3000"}
+	}
+	
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     origins,
+		AllowOrigins:     validOrigins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
