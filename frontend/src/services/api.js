@@ -1,13 +1,27 @@
 import axios from 'axios';
 
-// Tạo instance axios với base URL
+// Lấy biến môi trường từ Vite
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
+const API_TIMEOUT = import.meta.env.VITE_API_TIMEOUT || 10000;
+const ENV = import.meta.env.VITE_ENV || 'development';
+
+// Tạo instance axios với base URL từ environment
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
-  timeout: 10000,
+  baseURL: API_BASE_URL,
+  timeout: parseInt(API_TIMEOUT),
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+// Log configuration in development
+if (ENV === 'development') {
+  console.log('API Configuration:', {
+    baseURL: API_BASE_URL,
+    timeout: API_TIMEOUT,
+    environment: ENV
+  });
+}
 
 // Các endpoint API
 export const API_ENDPOINTS = {
