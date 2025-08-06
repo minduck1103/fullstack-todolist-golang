@@ -24,12 +24,18 @@ npm run dev
 
 ```
 src/
-├── components/          # React components
-│   └── index.js        # Component exports
-├── hooks/              # Custom React hooks
-│   └── index.js        # Hook exports
+├── components/          # React components chung
+│   ├── LoadingSpinner.jsx
+│   ├── EmptyState.jsx
+│   └── ErrorState.jsx
+├── hooks/              # Custom React hooks chung
+│   └── useTasks.js
 ├── pages/              # Page components
-│   └── todo.jsx        # Todo page
+│   └── todo/           # Todo page
+│       ├── components/ # Components riêng cho todo
+│       │   ├── TodoList.jsx
+│       │   └── TodoItem.jsx
+│       └── index.jsx   # Todo page chính
 ├── services/           # API services
 │   └── api.js          # API configuration & functions
 ├── types/              # Type definitions
@@ -46,6 +52,7 @@ src/
 - **React 19**: UI framework
 - **Vite**: Build tool
 - **Axios**: HTTP client
+- **Tailwind CSS**: Styling framework
 - **Lucide React**: Icon library
 
 ## 📋 PR Progress
@@ -58,12 +65,15 @@ src/
 - [x] Tạo type definitions
 - [x] Test API connection
 
-### 🔄 PR 2: TodoList Component (Next)
-- [ ] Component hiển thị danh sách tasks
-- [ ] Loading states và error handling
-- [ ] Styling cơ bản
+### ✅ PR 2: TodoList Component
+- [x] Component hiển thị danh sách tasks
+- [x] Loading states và error handling
+- [x] Styling với Tailwind CSS
+- [x] Custom hooks cho state management
+- [x] Components: TodoList, TodoItem, LoadingSpinner, EmptyState, ErrorState
+- [x] Responsive design
 
-### ⏳ PR 3: AddTodo Component
+### 🔄 PR 3: AddTodo Component (Next)
 - [ ] Form thêm task mới
 - [ ] Validation
 - [ ] Success/error feedback
@@ -97,6 +107,25 @@ Backend API chạy trên `http://localhost:8080` với các endpoints:
 - `PUT /tasks/{id}` - Cập nhật task
 - `DELETE /tasks/{id}` - Xóa task
 - `GET /health` - Health check
+
+## 🎨 Features PR 2
+
+### Components đã tạo:
+- **TodoList**: Component chính hiển thị danh sách tasks
+- **TodoItem**: Component cho từng task item với checkbox và nút xóa
+- **LoadingSpinner**: Component loading với nhiều kích thước
+- **EmptyState**: Component hiển thị khi không có tasks
+- **ErrorState**: Component hiển thị khi có lỗi với nút retry
+
+### Features:
+- ✅ Hiển thị danh sách tasks từ API `GET /tasks`
+- ✅ Loading states cho initial load và updates
+- ✅ Error handling với retry functionality
+- ✅ Empty state khi không có tasks
+- ✅ Styling đẹp với Tailwind CSS
+- ✅ Responsive design
+- ✅ Custom hook `useTasks` cho state management
+- ✅ Optimistic updates cho toggle complete và delete
 
 ## 🧪 Test
 
