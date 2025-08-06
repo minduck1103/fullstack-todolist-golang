@@ -1,5 +1,10 @@
 # Todo Application
 
+## Clone Repo
+```bash
+git clone<https://github.com/minduck1103/fullstack-todolist-golang.git>
+```
+
 ## Backend Setup
 
 ### Prerequisites
