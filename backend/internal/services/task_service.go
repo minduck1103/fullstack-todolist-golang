@@ -2,6 +2,7 @@ package services
 
 import (
 	"strconv"
+	"time"
 	"todo-api/internal/models"
 	"todo-api/internal/storage"
 )
@@ -21,9 +22,9 @@ func NewTaskService(storage *storage.MemoryStorage) *TaskService {
 // Tạo task mới
 func (s *TaskService) CreateTask(req *models.CreateTaskRequest) (*models.CreateTaskResponse, error) {
 	task := &models.Task{
-		Title:       req.Title,
-		Description: req.Description,
-		Completed:   false,
+		Text:      req.Text,
+		Completed: false,
+		CreatedAt: time.Now(),
 	}
 
 	// Lưu vào storage
@@ -48,7 +49,7 @@ func (s *TaskService) UpdateTask(idString string, req *models.UpdateTaskRequest)
 	// Chuyển string ID thành int
 	id, _ := strconv.Atoi(idString)
 	
-	return s.storage.Update(id, req.Completed)
+	return s.storage.Update(id, req)
 }
 
 // Xóa task

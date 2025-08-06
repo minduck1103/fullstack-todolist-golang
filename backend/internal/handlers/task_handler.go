@@ -40,7 +40,14 @@ func (h *TaskHandler) CreateTask(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(http.StatusCreated, response)
+	
+	// Trả về task đầy đủ thay vì chỉ ID
+	task := &models.Task{
+		ID:        response.ID,
+		Text:      req.Text,
+		Completed: false,
+	}
+	c.JSON(http.StatusCreated, task)
 }
 
 // Xử lý GET /tasks
