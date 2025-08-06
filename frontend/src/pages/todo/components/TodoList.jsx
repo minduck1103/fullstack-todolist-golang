@@ -1,6 +1,6 @@
 import React from 'react';
 import TodoItem from './TodoItem';
-import LoadingSpinner from '../../../components/LoadingSpinner';
+import LoadingSkeleton from '../../../components/LoadingSkeleton';
 import EmptyState from '../../../components/EmptyState';
 import ErrorState from '../../../components/ErrorState';
 
@@ -12,11 +12,11 @@ const TodoList = ({
   onDelete,
   onRetry 
 }) => {
-  // Hiển thị trạng thái đang tải
+  // Hiển thị trạng thái đang tải với skeleton
   if (loading && tasks.length === 0) {
     return (
-      <div className="flex justify-center py-12">
-        <LoadingSpinner size="lg" text="Đang tải danh sách công việc..." />
+      <div className="space-y-4">
+        <LoadingSkeleton type="task" count={3} />
       </div>
     );
   }

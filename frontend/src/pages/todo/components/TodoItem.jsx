@@ -54,14 +54,14 @@ const TodoItem = ({
     });
   };
 
-  return (
-    <div className={`bg-white rounded-lg border transition-all duration-300 hover:shadow-lg ${
-      completed 
-        ? 'border-green-200 bg-green-50 opacity-90' 
+    return (
+    <div className={`bg-white rounded-lg border transition-all duration-300 hover:shadow-lg hover-lift ${
+      completed
+        ? 'border-green-200 bg-green-50 opacity-90'
         : 'border-gray-200 hover:border-purple-300'
     } ${isDeleting ? 'opacity-50' : ''}`}>
-      <div className="p-4">
-        <div className="flex items-start space-x-3">
+      <div className="p-3 md:p-4">
+        <div className="flex items-start space-x-2 md:space-x-3">
           {/* Nút checkbox */}
           <button
             onClick={handleToggleComplete}
@@ -73,11 +73,11 @@ const TodoItem = ({
             }`}
           >
             {isToggling ? (
-              <div className="w-5 h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+              <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
             ) : completed ? (
-              <CheckCircle className="w-5 h-5 text-green-600" />
+              <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-green-600" />
             ) : (
-              <Circle className="w-5 h-5 text-gray-400 hover:text-purple-500" />
+              <Circle className="w-4 h-4 md:w-5 md:h-5 text-gray-400 hover:text-purple-500" />
             )}
           </button>
 
@@ -85,7 +85,7 @@ const TodoItem = ({
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h3 className={`text-base font-medium transition-all duration-200 ${
+                <h3 className={`text-sm md:text-base font-medium transition-all duration-200 ${
                   completed 
                     ? 'text-gray-500 line-through' 
                     : 'text-gray-900'
@@ -94,7 +94,7 @@ const TodoItem = ({
                 </h3>
                 
                 {description && (
-                  <p className={`text-sm mt-2 transition-all duration-200 ${
+                  <p className={`text-xs md:text-sm mt-2 transition-all duration-200 ${
                     completed 
                       ? 'text-gray-400 line-through' 
                       : 'text-gray-600'
@@ -105,7 +105,7 @@ const TodoItem = ({
                 
                 {/* Thông tin ngày tạo */}
                 {created_at && (
-                  <div className="mt-2 text-xs text-gray-400">
+                  <div className="mt-2 text-xs text-gray-400 mobile-hidden">
                     Tạo lúc: {formatDate(created_at)}
                   </div>
                 )}
@@ -113,8 +113,8 @@ const TodoItem = ({
               
               {/* Badge trạng thái */}
               <div className="ml-3">
-                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
-                  completed
+                                <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium mobile-hidden ${
+                  completed 
                     ? 'bg-green-100 text-green-800'
                     : 'bg-yellow-100 text-yellow-800'
                 }`}>

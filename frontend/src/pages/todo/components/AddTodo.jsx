@@ -94,27 +94,27 @@ const AddTodo = ({ onAddTask, loading = false }) => {
         // Nút mở form
         <button
           onClick={handleToggleExpand}
-          className="w-full p-4 border-2 border-dashed border-purple-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-all duration-200 group"
+          className="w-full p-3 md:p-4 border-2 border-dashed border-purple-300 rounded-lg hover:border-purple-400 hover:bg-purple-50 transition-all duration-200 group hover-lift"
           disabled={loading}
         >
           <div className="flex items-center justify-center space-x-2 text-purple-600">
-            <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            <span className="font-medium">Thêm công việc mới</span>
+            <Plus className="w-4 h-4 md:w-5 md:h-5 group-hover:scale-110 transition-transform" />
+            <span className="font-medium text-sm md:text-base">Thêm công việc mới</span>
           </div>
         </button>
       ) : (
         // Form thêm task
-        <div className="glass rounded-lg p-6 animate-slide-up">
+        <div className="glass rounded-lg p-4 md:p-6 animate-slide-up">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-base md:text-lg font-semibold text-gray-900">
               Thêm công việc mới
             </h3>
             <button
               onClick={handleCancel}
-              className="p-1 hover:bg-gray-100 rounded-full transition-colors"
+              className="p-1 hover:bg-gray-100 rounded-full transition-colors hover-scale"
               disabled={loading}
             >
-              <X className="w-5 h-5 text-gray-500" />
+              <X className="w-4 h-4 md:w-5 md:h-5 text-gray-500" />
             </button>
           </div>
 
