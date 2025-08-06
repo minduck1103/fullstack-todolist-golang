@@ -5,6 +5,7 @@ import { UI_CONSTANTS } from '../utils/constants';
 export const useTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [addingTask, setAddingTask] = useState(false);
   const [error, setError] = useState(null);
 
   // Lấy danh sách công việc từ API
@@ -55,6 +56,9 @@ export const useTasks = () => {
 
   // Thêm công việc mới 
   const addTask = useCallback(async (taskData) => {
+    setAddingTask(true);
+    setError(null);
+    
     try {
       const newTask = await taskAPI.createTask(taskData);
       
@@ -65,6 +69,8 @@ export const useTasks = () => {
       setError(err.message);
       console.error('Lỗi khi tạo công việc:', err);
       throw err;
+    } finally {
+      setAddingTask(false);
     }
   }, []);
 
@@ -76,6 +82,7 @@ export const useTasks = () => {
   return {
     tasks,
     loading,
+    addingTask,
     error,
     fetchTasks,
     toggleComplete,
