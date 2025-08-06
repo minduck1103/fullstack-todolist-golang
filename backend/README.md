@@ -22,10 +22,8 @@ Server sẽ chạy trên `http://localhost:8080`
 
 ### Test API
 ```bash
-# Test endpoint chính
 curl http://localhost:8080/
 
-# Test health check
 curl http://localhost:8080/health
 ```
 
@@ -51,8 +49,7 @@ backend/
 - **Gin**: HTTP web framework
 - **In-Memory Storage**: Lưu trữ dữ liệu trong RAM
 
-## 📋 API Endpoints (Sẽ được implement)
-
+## 📋 API Endpoints 
 - `GET /tasks` - Lấy danh sách tasks
 - `POST /tasks` - Tạo task mới
 - `PUT /tasks/{id}` - Cập nhật task
